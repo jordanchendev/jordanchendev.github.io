@@ -1,0 +1,17 @@
+# macOS / Windows
+.DS_Store
+**/.DS_Store
+Thumbs.db
+**/Thumbs.db
+
+# Hugo leftover
+.hugo_build.lock
+
+# Editor / local tooling (do not publish)
+lv-settings.lua
+
+# Stale template text dump
+index.txt
+
+# Claude Code local settings
+.claude/
