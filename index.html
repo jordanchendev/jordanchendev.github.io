@@ -158,7 +158,7 @@
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
+            <button class="navbar-link" data-nav-link>Blog</button>
           </li>
 
           <li class="navbar-item">
@@ -458,141 +458,131 @@
 
 
       <!--
-        - #PORTFOLIO
+        - #BLOG
       -->
 
-      <article class="portfolio" data-page="portfolio">
+      <article class="blog" data-page="blog">
 
         <header>
-          <h2 class="h2 article-title">Portfolio</h2>
+          <h2 class="h2 article-title">Blog</h2>
         </header>
 
-        <section class="projects">
+        <section class="blog-posts">
 
-          <ul class="filter-list">
+          <ul class="blog-posts-list">
 
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>AI &amp; ML</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Backend</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Frontend</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>AI &amp; ML</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Backend</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Frontend</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="ai & ml">
+            <li class="blog-post-item">
               <a href="https://github.com/jordanchendev/system_guardian" target="_blank" rel="noopener">
 
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="logo-github"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-1.jpg" alt="System Guardian" loading="lazy">
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/blog-1.jpg" alt="System Guardian" loading="lazy">
                 </figure>
 
-                <h3 class="project-title">System Guardian</h3>
+                <div class="blog-content">
 
-                <p class="project-category">AI-powered incident management — autonomous monitoring &amp; resolution</p>
+                  <div class="blog-meta">
+                    <p class="blog-category">AI &amp; ML</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">System Guardian — autonomous incident management</h3>
+
+                  <p class="blog-text">
+                    An AI-powered platform that autonomously monitors on-call incidents, analyzes them, and suggests
+                    resolutions. A write-up on the agent design and triage flow is on the way.
+                  </p>
+
+                </div>
 
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="ai & ml">
+            <li class="blog-post-item">
               <a href="https://github.com/jordanchendev/triton" target="_blank" rel="noopener">
 
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="logo-github"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-7.png" alt="Triton" loading="lazy">
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/blog-2.jpg" alt="Triton" loading="lazy">
                 </figure>
 
-                <h3 class="project-title">Triton</h3>
+                <div class="blog-content">
 
-                <p class="project-category">GPU-accelerated media-to-text worker</p>
+                  <div class="blog-meta">
+                    <p class="blog-category">AI &amp; ML</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Triton — GPU-accelerated media-to-text</h3>
+
+                  <p class="blog-text">
+                    A worker that turns audio and video into text at scale. Notes on the transcription pipeline and
+                    throughput tuning coming soon.
+                  </p>
+
+                </div>
 
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="backend">
+            <li class="blog-post-item">
               <a href="https://github.com/jordanchendev/poseidon" target="_blank" rel="noopener">
 
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="logo-github"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-2.png" alt="Poseidon" loading="lazy">
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/blog-3.jpg" alt="Poseidon" loading="lazy">
                 </figure>
 
-                <h3 class="project-title">Poseidon</h3>
+                <div class="blog-content">
 
-                <p class="project-category">Trading signal platform</p>
+                  <div class="blog-meta">
+                    <p class="blog-category">Backend</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Poseidon — a trading signal platform</h3>
+
+                  <p class="blog-text">
+                    Data ingestion, signal generation, and a REST API for trading signals. A deeper dive on the
+                    architecture to follow.
+                  </p>
+
+                </div>
 
               </a>
             </li>
 
-            <li class="project-item  active" data-filter-item data-category="frontend">
+            <li class="blog-post-item">
               <a href="https://github.com/jordanchendev/kairos" target="_blank" rel="noopener">
 
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="logo-github"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-4.png" alt="Kairos" loading="lazy">
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/blog-4.jpg" alt="Kairos" loading="lazy">
                 </figure>
 
-                <h3 class="project-title">Kairos</h3>
+                <div class="blog-content">
 
-                <p class="project-category">React 19 + Vite trading dashboard SPA</p>
+                  <div class="blog-meta">
+                    <p class="blog-category">Frontend</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Kairos — the Aquarium dashboard SPA</h3>
+
+                  <p class="blog-text">
+                    The v6 single-page app shell for the Aquarium trading dashboard — React 19, Vite, Tailwind v4, and
+                    TanStack Query. Notes on the rebuild coming soon.
+                  </p>
+
+                </div>
 
               </a>
             </li>
