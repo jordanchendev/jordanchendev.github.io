@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETF Rotation Research · Jordan Chen</title>
+
+  <script>
+    (function () {
+      try {
+        var l = localStorage.getItem("site-lang");
+        if (l !== "en" && l !== "zh") {
+          l = (navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+        }
+        document.documentElement.className = "lang-" + l;
+        document.documentElement.lang = l === "zh" ? "zh-Hant" : "en";
+      } catch (e) {
+        document.documentElement.className = "lang-en";
+      }
+    })();
+  </script>
+
+  <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/article.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+
+<body class="article-page">
+
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-lang-set="en" aria-label="English">EN</button>
+    <button type="button" data-lang-set="zh" aria-label="中文">中</button>
+  </div>
+
+  <div class="article-wrap">
+
+    <a class="article-back" href="./index.html">
+      <span data-lang="en">&larr; Back to home</span>
+      <span data-lang="zh">&larr; 回首頁</span>
+    </a>
+
+    <p class="article-eyebrow">
+      <span data-lang="en">Quant Research</span>
+      <span data-lang="zh">量化研究</span>
+    </p>
+
+    <h1>
+      <span data-lang="en">ETF Rotation: what 189 strategies and three validation layers actually reveal</span>
+      <span data-lang="zh">ETF 輪動:189 個策略與三層驗證,到底告訴我們什麼</span>
+    </h1>
+
+    <p class="article-lead">
+      <span data-lang="en">Leveraged ETFs promise spectacular returns. The interesting question isn't whether
+        they're high-return — it's whether any rule for <em>rotating</em> between a core ETF and its leveraged
+        sibling is worth actually executing, once you account for drawdown, trading frequency, and luck.</span>
+      <span data-lang="zh">槓桿 ETF 帳面報酬很誘人。真正有趣的問題不是「報酬高不高」,而是:在核心 ETF
+        與它的槓桿版本之間做<em>輪動</em>的規則,扣掉回撤、交易頻率與運氣之後,到底值不值得真的執行?</span>
+    </p>
+
+    <p class="article-meta">
+      <span data-lang="en">Jun 18, 2026 · 6 ETF pairs · 16 years of daily data · 189 strategies · 3 validation layers</span>
+      <span data-lang="zh">2026 年 6 月 18 日 · 6 組標的對 · 16 年日線資料 · 189 個策略 · 三層驗證</span>
+    </p>
+
+    <div id="etf-error">
+      <span data-lang="en">Could not load the research dataset.</span>
+      <span data-lang="zh">研究資料載入失敗。</span>
+    </div>
+
+    <!-- 1 -->
+    <h2>
+      <span data-lang="en">1. The question</span>
+      <span data-lang="zh">一、問題</span>
+    </h2>
+    <p data-lang="en">I backtested six core/leveraged ETF pairs — three US (QQQ/TQQQ, VOO/SSO, VOO/UPRO,
+      SPY/UPRO) and two Taiwan (0050/00631L, 006204/00675L) — across every strategy I could define: buy-the-dip
+      leverage, reverse de-risking, a 2x-plus-cash band, moving-average rules, and switch-to-cash variants. That's
+      <span class="key">189 strategies</span> in total. Then I ran three independent validation layers to check whether
+      each result was real or just a lucky fit to one slice of history.</p>
+    <p data-lang="zh">我回測了六組「核心 / 槓桿」ETF 對——三組美股(QQQ/TQQQ、VOO/SSO、VOO/UPRO、SPY/UPRO)與兩組台股(0050/00631L、006204/00675L)——
+      並套上所有我能定義的策略:買跌加槓桿、反向降槓桿、正2 + 現金權重帶、均線規則、切現金等,共 <span class="key">189 個策略</span>。
+      接著用三層獨立驗證,檢查每個結果是真的穩健,還是只是剛好 fit 到某一段歷史。</p>
+
+    <div class="callout">
+      <span data-lang="en"><strong>The thesis up front:</strong> the goal was never to find the highest backtest
+        number. It was to judge whether a rotation rule holds up across return, drawdown, trading cost, and different
+        market conditions. The most impressive backtest is usually the least trustworthy.</span>
+      <span data-lang="zh"><strong>先講結論:</strong>目標從來不是找出「歷史最高報酬」,而是判斷一條輪動規則在報酬、回撤、交易成本與不同市況下是否站得住腳。
+        最亮眼的回測,通常最不可信。</span>
+    </div>
+
+    <!-- 2 -->
+    <h2>
+      <span data-lang="en">2. A reality check on the benchmarks</span>
+      <span data-lang="zh">二、先看兩條基準</span>
+    </h2>
+    <p data-lang="en">Every comparison is anchored on two lines: holding 100% of the core ETF, and holding 100% of
+      the leveraged ETF. The leveraged buy-and-hold numbers are where most people stop reading — and where most
+      people would have been shaken out.</p>
+    <p data-lang="zh">每個比較都錨定在兩條線上:全程持有 100% 核心 ETF,以及全程持有 100% 槓桿 ETF。槓桿純持有的數字,是多數人停止閱讀的地方——
+      也是多數人實際上會被洗出場的地方。</p>
+
+    <div class="table-scroll">
+      <table class="etf-table" id="table-benchmark"></table>
+    </div>
+    <p data-lang="en">TQQQ compounded at <span class="key">43.8%</span> a year — and drew down <span class="key">−81.7%</span>.
+      A −80% drawdown means watching $100k become $18k and holding on. Almost nobody does.</p>
+    <p data-lang="zh">TQQQ 年化 <span class="key">43.8%</span>——但最大回撤 <span class="key">−81.7%</span>。
+      −80% 回撤的意思是:看著 100 萬變成 18 萬還抱得住。幾乎沒有人做得到。</p>
+
+    <!-- 3 -->
+    <h2>
+      <span data-lang="en">3. Insight #1 — a little well-timed leverage beats buy-and-hold</span>
+      <span data-lang="zh">三、洞察 1:少量、擇時的槓桿,勝過無腦持有</span>
+    </h2>
+    <p data-lang="en">The best composite strategy on QQQ/TQQQ spends <span class="key">95% of the time in plain QQQ</span> and
+      only <span class="key">4.5% in TQQQ</span>. With just <span class="key">2 switches in 16 years</span> it lifts
+      CAGR from 19.8% to <span class="key">23.9%</span> while keeping drawdown near the core (−40% vs −35%). The two
+      switches were disciplined and rare: into leverage after QQQ fell 35% from its high (Oct 2022), back to core after
+      it rebounded 45% (Jul 2023). Buy the crash, not the top.</p>
+    <p data-lang="zh">QQQ/TQQQ 的「綜合分數最佳」策略,有 <span class="key">95% 的時間只持有 QQQ</span>,只有 <span class="key">4.5% 進 TQQQ</span>。
+      16 年只切換 <span class="key">2 次</span>,就把年化從 19.8% 拉到 <span class="key">23.9%</span>,而回撤仍貼近核心(−40% vs −35%)。
+      那兩次切換又少又有紀律:QQQ 從高點跌 35% 時進槓桿(2022 年 10 月),反彈 45% 後回核心(2023 年 7 月)。買崩盤,不買高點。</p>
+
+    <div class="panel">
+      <p class="panel-title">
+        <span data-lang="en">QQQ / TQQQ — growth of 1, key strategies vs benchmarks</span>
+        <span data-lang="zh">QQQ / TQQQ — 起始 1 的成長,關鍵策略 vs 基準</span>
+      </p>
+      <div class="scale-toggle">
+        <button type="button" data-scale="log" class="active">Log</button>
+        <button type="button" data-scale="linear">Linear</button>
+      </div>
+      <div class="chart" id="chart-nasdaq"></div>
+      <p class="panel-note">
+        <span data-lang="en">Log scale makes compound growth rates comparable; switch to linear to feel the
+          absolute dollar gap.</span>
+        <span data-lang="zh">對數軸讓長期成長率好比較;切到線性軸更能感受實際金額差距。</span>
+      </p>
+    </div>
+
+    <div class="table-scroll">
+      <table class="etf-table" id="table-results-nasdaq"></table>
+    </div>
+
+    <!-- 4 -->
+    <h2>
+      <span data-lang="en">4. Insight #2 — drawdown is the binding constraint</span>
+      <span data-lang="zh">四、洞察 2:回撤,才是真正的天花板</span>
+    </h2>
+    <p data-lang="en">Once you rank strategies by what you can actually survive, the picture changes. The
+      "highest return within a −40% drawdown" family is the sweet spot — and Taiwan's pairs shine, because Taiwan's
+      leveraged ETFs draw down far less (−55%) than US 3x products (−77% to −82%). On 006204/00675L, reverse
+      de-risking earns <span class="key">41.1%</span> CAGR at <span class="key">−43.8%</span> drawdown, versus 21.2%
+      for the core — roughly double the return for a controlled risk budget.</p>
+    <p data-lang="zh">一旦改用「你實際抱得住什麼」來排序,畫面就變了。「回撤 −40% 內最高報酬」這一族是甜蜜點——而台股組特別亮眼,
+      因為台股槓桿 ETF 的回撤(−55%)遠比美股 3x 產品(−77% ~ −82%)溫和。006204/00675L 的反向降槓桿達到
+      <span class="key">41.1%</span> 年化、回撤僅 <span class="key">−43.8%</span>,而核心只有 21.2%——在受控的風險預算下,報酬約為兩倍。</p>
+
+    <div class="panel">
+      <p class="panel-title">
+        <span data-lang="en">0050 / 00631L (Taiwan) — growth of 1, key strategies vs benchmarks</span>
+        <span data-lang="zh">0050 / 00631L(台股)— 起始 1 的成長,關鍵策略 vs 基準</span>
+      </p>
+      <div class="chart" id="chart-taiwan"></div>
+    </div>
+
+    <div class="table-scroll">
+      <table class="etf-table" id="table-results-taiwan"></table>
+    </div>
+
+    <!-- 5 -->
+    <h2>
+      <span data-lang="en">5. Insight #3 — one moving-average line goes a long way</span>
+      <span data-lang="zh">五、洞察 3:一條均線,就走得很遠</span>
+    </h2>
+    <p data-lang="en">The dead-simple rule "hold leverage only while the core is above its SMA200" captures a
+      surprising amount: <span class="key">39.5%</span> CAGR on QQQ/TQQQ versus 19.8% for the core. The catch is cost:
+      it trades <span class="key">87 times</span> and rides a −59% drawdown. Simplicity and robustness, paid for in
+      turnover.</p>
+    <p data-lang="zh">「核心站上 SMA200 才持有槓桿」這條極簡規則,抓到的東西意外地多:QQQ/TQQQ 年化 <span class="key">39.5%</span>,
+      核心才 19.8%。代價是成本:它切換了 <span class="key">87 次</span>,並承受 −59% 回撤。簡單又穩健,但用周轉率換來。</p>
+
+    <!-- 6 -->
+    <h2>
+      <span data-lang="en">6. The overfitting trap</span>
+      <span data-lang="zh">六、過度配適的陷阱</span>
+    </h2>
+    <p data-lang="en">The "highest historical return" strategy on QQQ/TQQQ shows a jaw-dropping <span class="key">487×</span>
+      final multiple (46% CAGR). It gets there with 21 switches perfectly placed on this one historical path. That's
+      not a strategy you can trust — it's a curve fit. This is exactly why a single backtest, however gorgeous, can't
+      be the conclusion. It has to survive validation.</p>
+    <p data-lang="zh">QQQ/TQQQ 的「歷史報酬最高」策略,帳面終值高達 <span class="key">487 倍</span>(46% 年化)。它靠的是 21 次剛好踩在這條歷史路徑上的切換。
+      這不是能信任的策略,而是一條曲線配適。這正是為何單一回測再漂亮也不能當結論——它必須通過驗證。</p>
+
+    <!-- 7 -->
+    <h2>
+      <span data-lang="en">7. Three layers of validation</span>
+      <span data-lang="zh">七、三層驗證</span>
+    </h2>
+    <p data-lang="en">Each layer attacks the same question from a different angle: <strong>is this strategy good, or
+      was it just lucky?</strong></p>
+    <p data-lang="zh">每一層都從不同角度攻擊同一個問題:<strong>這個策略是真的好,還是只是運氣好?</strong></p>
+
+    <h3>
+      <span data-lang="en">Layer 1 — Rolling entry</span>
+      <span data-lang="zh">第一層 — 滾動進場</span>
+    </h3>
+    <p data-lang="en">Shift the entry month forward across 180+ windows. A revealing result: the "best composite"
+      strategy, so impressive on full history, beats the core in only <span class="key">32%</span> of 5-year rolling
+      windows — it's entry-timing dependent. By contrast, the "≤−40% drawdown" strategy beats core in
+      <span class="key">100%</span> of 5-year windows with a median 2.83× and a P05 of 2.20×. That's robustness.</p>
+    <p data-lang="zh">把進場月份往後平移,跑 180+ 個窗口。一個很有啟發的結果:在完整歷史上很亮眼的「綜合分數最佳」,在 5 年滾動窗只有
+      <span class="key">32%</span> 勝過核心——它很吃進場時機。相對地,「回撤 −40% 內」策略在 5 年窗口
+      <span class="key">100%</span> 勝過核心,中位 2.83 倍、P05 也有 2.20 倍。這才是穩健。</p>
+
+    <div class="table-scroll">
+      <table class="etf-table" id="table-rolling"></table>
+    </div>
+
+    <h3>
+      <span data-lang="en">Layer 2 — Market regimes</span>
+      <span data-lang="zh">第二層 — 市況分組</span>
+    </h3>
+    <p data-lang="en">Group entry points by what the market was doing — bull, bear, sideways — to see whether a
+      strategy is a one-trick pony that only works entering from a crash. (Some regime samples are small, so this is a
+      supporting check, not a verdict on its own.)</p>
+    <p data-lang="zh">依進場前的行情把進場點分成牛市、熊市、盤整,看一個策略是不是只在「從崩盤進場」時有效的偏食策略。
+      (部分市況樣本偏少,所以這層是輔助判斷,不單獨當結論。)</p>
+
+    <h3>
+      <span data-lang="en">Layer 3 — Monte Carlo</span>
+      <span data-lang="zh">第三層 — 蒙地卡羅</span>
+    </h3>
+    <p data-lang="en">Resample historical monthly returns into 5,000 simulated 10-year paths. This is where the
+      leverage fantasy meets reality: pure TQQQ has a dazzling median of 36×, but a P05 of just 2.07× (barely above
+      core), a 2.4% chance of a 10-year loss, and a median drawdown of −63%. The "≤−40% drawdown" strategy gives a
+      median 9.0× with a P05 of 2.5×, a 0.2% loss chance, and a −30% median drawdown — far more livable.</p>
+    <p data-lang="zh">把歷史月報酬重抽樣,組成 5,000 條 10 年模擬路徑。這裡正是槓桿幻想撞上現實的地方:純 TQQQ 中位數高達 36 倍,
+      但 P05 只有 2.07 倍(僅略高於核心)、10 年虧損機率 2.4%、中位回撤 −63%。「回撤 −40% 內」策略中位 9.0 倍、P05 2.5 倍、
+      虧損機率 0.2%、中位回撤 −30%——體驗可承受得多。</p>
+
+    <div class="panel">
+      <p class="panel-title">
+        <span data-lang="en">QQQ / TQQQ — Monte Carlo 10-year final multiple (5,000 paths)</span>
+        <span data-lang="zh">QQQ / TQQQ — 蒙地卡羅 10 年終值倍數(5,000 條路徑)</span>
+      </p>
+      <div class="chart" id="chart-montecarlo"></div>
+      <p class="panel-note">
+        <span data-lang="en">Tall P95 with a low P05 means big upside bought with a painful path — read the spread,
+          not just the median.</span>
+        <span data-lang="zh">P95 很高但 P05 很低,代表上方空間大、但過程很痛——要看分佈區間,不要只看中位數。</span>
+      </p>
+    </div>
+
+    <div class="table-scroll">
+      <table class="etf-table" id="table-montecarlo"></table>
+    </div>
+
+    <!-- 8 -->
+    <h2>
+      <span data-lang="en">8. What I take away</span>
+      <span data-lang="zh">八、我的結論</span>
+    </h2>
+    <p data-lang="en">Three things hold across all six pairs. First, <strong>drawdown — not return — decides what you
+      can actually hold</strong>, so rank by survivable risk first. Second, <strong>a small, rules-based dose of
+      leverage</strong> beats both buy-and-hold core and full leverage on a risk-adjusted basis. Third, and most
+      important, <strong>the prettiest backtest is the least trustworthy</strong>; only strategies that survive
+      rolling entry, regime grouping, and Monte Carlo earn any confidence.</p>
+    <p data-lang="zh">三件事在六組標的上都成立。第一,<strong>決定你抱不抱得住的是回撤,不是報酬</strong>,所以要先用可承受的風險來排序。
+      第二,<strong>少量、有規則的槓桿</strong>,在風險調整後勝過無腦持有核心、也勝過滿倉槓桿。第三,也最重要:
+      <strong>最漂亮的回測最不可信</strong>;只有同時通過滾動進場、市況分組與蒙地卡羅的策略,才值得一點信心。</p>
+
+    <p class="disclaimer">
+      <span data-lang="en"><strong>Disclaimer.</strong> This is personal research for learning, not investment advice
+        or a return guarantee. Backtests use historical prices; leveraged ETFs carry daily-reset decay, tracking
+        error, and liquidity risk; Monte Carlo resamples history and cannot cover every future extreme. Real costs,
+        taxes, slippage, and timing will change outcomes.</span>
+      <span data-lang="zh"><strong>免責聲明。</strong>這是個人學習用的研究,不是投資建議,也不保證報酬。回測使用歷史價格;
+        槓桿 ETF 有每日重設的耗損、追蹤誤差與流動性風險;蒙地卡羅是對歷史重抽樣,無法涵蓋所有未來極端情況。
+        實際交易成本、稅、滑價與資金進出時間都會改變結果。</span>
+    </p>
+
+  </div>
+
+  <script src="./assets/js/lang.js"></script>
+  <script src="./assets/js/article.js"></script>
+
+</body>
+
+</html>

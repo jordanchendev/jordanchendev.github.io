@@ -1880,3 +1880,55 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+
+
+
+/*-----------------------------------*\
+  #LANGUAGE TOGGLE / I18N
+\*-----------------------------------*/
+
+html.lang-en [data-lang="zh"],
+html.lang-zh [data-lang="en"] { display: none !important; }
+
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: hsla(240, 2%, 13%, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid hsl(0, 0%, 22%);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px hsla(0, 0%, 0%, 0.4);
+}
+
+.lang-toggle button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: hsl(0, 0%, 84%);
+  background: transparent;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  min-width: 38px;
+}
+
+.lang-toggle button:hover { color: var(--orange-yellow-crayola); }
+
+html.lang-en .lang-toggle [data-lang-set="en"],
+html.lang-zh .lang-toggle [data-lang-set="zh"] {
+  color: hsl(0, 0%, 7%);
+  background: var(--orange-yellow-crayola);
+}
+
+@media (max-width: 580px) {
+  .lang-toggle { top: 10px; right: 10px; }
+  .lang-toggle button { padding: 4px 10px; min-width: 34px; }
+}

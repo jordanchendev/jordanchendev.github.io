@@ -37,24 +37,19 @@ for (let i = 0; i < formInputs.length; i++) {
 
 
 
-// page navigation variables
+// page navigation — match on data-nav-target so bilingual labels don't break it
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
-// add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
-
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
-    }
-
+navigationLinks.forEach(function (link) {
+  link.addEventListener("click", function () {
+    const target = this.dataset.navTarget;
+    pages.forEach(function (page) {
+      page.classList.toggle("active", page.dataset.page === target);
+    });
+    navigationLinks.forEach(function (other) {
+      other.classList.toggle("active", other === link);
+    });
+    window.scrollTo(0, 0);
   });
-}
+});

@@ -7,6 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jordan Chen · AI Engineer</title>
 
+  <!-- set language class before paint to avoid a flash of both languages -->
+  <script>
+    (function () {
+      try {
+        var l = localStorage.getItem("site-lang");
+        if (l !== "en" && l !== "zh") {
+          l = (navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+        }
+        document.documentElement.className = "lang-" + l;
+        document.documentElement.lang = l === "zh" ? "zh-Hant" : "en";
+      } catch (e) {
+        document.documentElement.className = "lang-en";
+      }
+    })();
+  </script>
+
   <!--
     - favicon
   -->
@@ -26,6 +42,14 @@
 </head>
 
 <body>
+
+  <!--
+    - #LANGUAGE TOGGLE
+  -->
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-lang-set="en" aria-label="English">EN</button>
+    <button type="button" data-lang-set="zh" aria-label="中文">中</button>
+  </div>
 
   <!--
     - #MAIN
@@ -48,11 +72,13 @@
         <div class="info-content">
           <h1 class="name" title="Jordan Chen">Jordan Chen</h1>
 
-          <p class="title">AI Engineer</p>
+          <p class="title" data-lang="en">AI Engineer</p>
+          <p class="title" data-lang="zh">AI 工程師</p>
         </div>
 
         <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
+          <span data-lang="en">Show Contacts</span>
+          <span data-lang="zh">顯示聯絡方式</span>
 
           <ion-icon name="chevron-down"></ion-icon>
         </button>
@@ -100,9 +126,11 @@
             </div>
 
             <div class="contact-info">
-              <p class="contact-title">Location</p>
+              <p class="contact-title" data-lang="en">Location</p>
+              <p class="contact-title" data-lang="zh">所在地</p>
 
-              <address>Taipei, Taiwan</address>
+              <address data-lang="en">Taipei, Taiwan</address>
+              <address data-lang="zh">台灣．台北</address>
             </div>
 
           </li>
@@ -134,7 +162,6 @@
 
 
 
-
     <!--
       - #main-content
     -->
@@ -150,25 +177,32 @@
         <ul class="navbar-list">
 
           <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
+            <button class="navbar-link  active" data-nav-link data-nav-target="about">
+              <span data-lang="en">About</span><span data-lang="zh">關於</span>
+            </button>
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
+            <button class="navbar-link" data-nav-link data-nav-target="resume">
+              <span data-lang="en">Resume</span><span data-lang="zh">學經歷</span>
+            </button>
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Blog</button>
+            <button class="navbar-link" data-nav-link data-nav-target="blog">
+              <span data-lang="en">Blog</span><span data-lang="zh">部落格</span>
+            </button>
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
+            <button class="navbar-link" data-nav-link data-nav-target="contact">
+              <span data-lang="en">Contact</span><span data-lang="zh">聯絡</span>
+            </button>
           </li>
 
         </ul>
 
       </nav>
-
 
 
 
@@ -180,21 +214,30 @@
       <article class="about  active" data-page="about">
 
         <header>
-          <h2 class="h2 article-title">About me</h2>
+          <h2 class="h2 article-title" data-lang="en">About me</h2>
+          <h2 class="h2 article-title" data-lang="zh">關於我</h2>
         </header>
 
         <section class="about-text">
-          <p>
+          <p data-lang="en">
             I'm an AI Engineer based in Taipei with 8+ years of experience spanning ML engineering, NLP, team
             leadership, and production AI services. I currently architect multi-agent orchestration systems and ship
             LLM-backed services at Appier.
           </p>
+          <p data-lang="zh">
+            我是一位在台北的 AI 工程師,擁有超過 8 年橫跨機器學習工程、NLP、團隊領導與生產級 AI 服務的經驗。目前在 Appier
+            設計多代理協作(multi-agent orchestration)系統,並交付以 LLM 為核心的服務。
+          </p>
 
-          <p>
+          <p data-lang="en">
             I'm a hands-on practitioner of coding agents, MCP-based tooling, and AI-assisted development workflows. My
             career spans embedded vision systems, NLP platforms, recommendation systems, and modern agentic AI
             infrastructure — and I enjoy partnering with non-AI domain teams to iterate and deliver production-ready
             features.
+          </p>
+          <p data-lang="zh">
+            我同時是 coding agent、MCP 工具鏈與 AI 輔助開發流程的實作者。職涯橫跨嵌入式視覺系統、NLP 平台、推薦系統,到現代
+            agentic AI 基礎設施——也很享受與非 AI 領域的團隊協作,快速迭代並交付可上線的功能。
           </p>
         </section>
 
@@ -205,7 +248,8 @@
 
         <section class="service">
 
-          <h3 class="h3 service-title">What i'm doing</h3>
+          <h3 class="h3 service-title" data-lang="en">What i'm doing</h3>
+          <h3 class="h3 service-title" data-lang="zh">我在做什麼</h3>
 
           <ul class="service-list">
 
@@ -216,10 +260,14 @@
               </div>
 
               <div class="service-content-box">
-                <h4 class="h4 service-item-title">Multi-Agent Systems</h4>
+                <h4 class="h4 service-item-title" data-lang="en">Multi-Agent Systems</h4>
+                <h4 class="h4 service-item-title" data-lang="zh">多代理系統</h4>
 
-                <p class="service-item-text">
+                <p class="service-item-text" data-lang="en">
                   Designing multi-agent orchestration with tool use, multi-step planning, memory, and guardrails.
+                </p>
+                <p class="service-item-text" data-lang="zh">
+                  設計具備工具使用、多步規劃、記憶與護欄的多代理協作系統。
                 </p>
               </div>
 
@@ -232,11 +280,15 @@
               </div>
 
               <div class="service-content-box">
-                <h4 class="h4 service-item-title">LLM &amp; RAG Services</h4>
+                <h4 class="h4 service-item-title" data-lang="en">LLM &amp; RAG Services</h4>
+                <h4 class="h4 service-item-title" data-lang="zh">LLM 與 RAG 服務</h4>
 
-                <p class="service-item-text">
+                <p class="service-item-text" data-lang="en">
                   Building LLM-backed APIs and RAG pipelines — chunking, retrieval, reranking — with quality and
                   latency evaluation.
+                </p>
+                <p class="service-item-text" data-lang="zh">
+                  打造以 LLM 為核心的 API 與 RAG 流程——切塊、檢索、重排序——並進行品質與延遲評估。
                 </p>
               </div>
 
@@ -249,11 +301,15 @@
               </div>
 
               <div class="service-content-box">
-                <h4 class="h4 service-item-title">AI Coding &amp; Dev Productivity</h4>
+                <h4 class="h4 service-item-title" data-lang="en">AI Coding &amp; Dev Productivity</h4>
+                <h4 class="h4 service-item-title" data-lang="zh">AI Coding 與開發效率</h4>
 
-                <p class="service-item-text">
+                <p class="service-item-text" data-lang="en">
                   Building coding-agent infrastructure with MCP integrations, reusable skills, hooks, and workflow
                   automation.
+                </p>
+                <p class="service-item-text" data-lang="zh">
+                  建置 coding agent 基礎設施,整合 MCP、可重用 skills、hooks 與工作流程自動化。
                 </p>
               </div>
 
@@ -266,10 +322,14 @@
               </div>
 
               <div class="service-content-box">
-                <h4 class="h4 service-item-title">ML &amp; NLP Engineering</h4>
+                <h4 class="h4 service-item-title" data-lang="en">ML &amp; NLP Engineering</h4>
+                <h4 class="h4 service-item-title" data-lang="zh">ML 與 NLP 工程</h4>
 
-                <p class="service-item-text">
+                <p class="service-item-text" data-lang="en">
                   NER, embeddings, recommendation, and evaluation pipelines productionized for real-world scale.
+                </p>
+                <p class="service-item-text" data-lang="zh">
+                  將 NER、embeddings、推薦與評估流程產品化,應對真實世界的規模。
                 </p>
               </div>
 
@@ -285,7 +345,6 @@
 
 
 
-
       <!--
         - #RESUME
       -->
@@ -293,7 +352,8 @@
       <article class="resume" data-page="resume">
 
         <header>
-          <h2 class="h2 article-title">Resume</h2>
+          <h2 class="h2 article-title" data-lang="en">Resume</h2>
+          <h2 class="h2 article-title" data-lang="zh">學經歷</h2>
         </header>
 
         <section class="timeline">
@@ -303,31 +363,40 @@
               <ion-icon name="book-outline"></ion-icon>
             </div>
 
-            <h3 class="h3">Education</h3>
+            <h3 class="h3" data-lang="en">Education</h3>
+            <h3 class="h3" data-lang="zh">教育</h3>
           </div>
 
           <ol class="timeline-list">
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">National Cheng Kung University</h4>
+              <h4 class="h4 timeline-item-title" data-lang="en">National Cheng Kung University</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">國立成功大學</h4>
 
               <span>2014 — 2016</span>
 
-              <p class="timeline-text">
+              <p class="timeline-text" data-lang="en">
                 M.Sc. in Computer and Communication Engineering.
+              </p>
+              <p class="timeline-text" data-lang="zh">
+                電腦與通訊工程研究所碩士。
               </p>
 
             </li>
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">National Central University</h4>
+              <h4 class="h4 timeline-item-title" data-lang="en">National Central University</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">國立中央大學</h4>
 
               <span>2010 — 2014</span>
 
-              <p class="timeline-text">
+              <p class="timeline-text" data-lang="en">
                 B.Sc. in Communication Engineering.
+              </p>
+              <p class="timeline-text" data-lang="zh">
+                通訊工程學系學士。
               </p>
 
             </li>
@@ -343,60 +412,82 @@
               <ion-icon name="book-outline"></ion-icon>
             </div>
 
-            <h3 class="h3">Experience</h3>
+            <h3 class="h3" data-lang="en">Experience</h3>
+            <h3 class="h3" data-lang="zh">工作經歷</h3>
           </div>
 
           <ol class="timeline-list">
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">Senior Scientist · Appier Group, Inc.</h4>
+              <h4 class="h4 timeline-item-title" data-lang="en">Senior Scientist · Appier Group, Inc.</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">資深科學家 · Appier Group, Inc.</h4>
 
-              <span>Aug. 2025 — Present</span>
+              <span data-lang="en">Aug. 2025 — Present</span>
+              <span data-lang="zh">2025 年 8 月 — 至今</span>
 
-              <p class="timeline-text">
+              <p class="timeline-text" data-lang="en">
                 Architecting multi-agent orchestration (Google ADK) with tool use, planning, memory, and guardrails;
                 shipping LLM-backed API services with RAG pipelines and quality/latency evaluation; building internal
                 coding-agent infrastructure with MCP, skills, and hooks.
               </p>
+              <p class="timeline-text" data-lang="zh">
+                以 Google ADK 設計具工具使用、規劃、記憶與護欄的多代理協作系統;交付含 RAG 流程與品質/延遲評估的 LLM API
+                服務;並建置整合 MCP、skills、hooks 的內部 coding agent 基礎設施。
+              </p>
 
             </li>
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">Senior AI Engineer → AI Team Lead · Uto.ai / Playsee</h4>
+              <h4 class="h4 timeline-item-title" data-lang="en">Senior AI Engineer → AI Team Lead · Uto.ai / Playsee</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">資深 AI 工程師 → AI 團隊主管 · Uto.ai / Playsee</h4>
 
-              <span>Mar. 2023 — Jul. 2025</span>
+              <span data-lang="en">Mar. 2023 — Jul. 2025</span>
+              <span data-lang="zh">2023 年 3 月 — 2025 年 7 月</span>
 
-              <p class="timeline-text">
+              <p class="timeline-text" data-lang="en">
                 Designed multi-agent systems and a multi-source RAG platform (Slack, Notion, files, web); shipped
                 multilingual LLM chatbots and conversational recommendation serving 10M+ users; led and mentored a team
                 of five engineers.
               </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">NLP Data Scientist · Emotibot</h4>
-
-              <span>Sep. 2021 — Feb. 2023</span>
-
-              <p class="timeline-text">
-                Built a re-trainable NER platform (F1=90) with evaluation pipelines, plus embedding and document
-                understanding services across internal NLP tooling.
+              <p class="timeline-text" data-lang="zh">
+                設計多代理系統與多來源 RAG 平台(Slack、Notion、本機檔案、網路搜尋);交付服務逾千萬使用者的多語 LLM
+                聊天機器人與對話式推薦;並帶領與指導五人工程團隊。
               </p>
 
             </li>
 
             <li class="timeline-item">
 
-              <h4 class="h4 timeline-item-title">Machine Learning Engineer · Chungyo Group / USI</h4>
+              <h4 class="h4 timeline-item-title" data-lang="en">NLP Data Scientist · Emotibot</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">NLP 資料科學家 · Emotibot</h4>
+
+              <span data-lang="en">Sep. 2021 — Feb. 2023</span>
+              <span data-lang="zh">2021 年 9 月 — 2023 年 2 月</span>
+
+              <p class="timeline-text" data-lang="en">
+                Built a re-trainable NER platform (F1=90) with evaluation pipelines, plus embedding and document
+                understanding services across internal NLP tooling.
+              </p>
+              <p class="timeline-text" data-lang="zh">
+                打造可重新訓練的 NER 平台(F1=90)與評估流程,以及內部 NLP 工具鏈的句向量與文件理解服務。
+              </p>
+
+            </li>
+
+            <li class="timeline-item">
+
+              <h4 class="h4 timeline-item-title" data-lang="en">Machine Learning Engineer · Chungyo Group / USI</h4>
+              <h4 class="h4 timeline-item-title" data-lang="zh">機器學習工程師 · 中友 / 環旭電子</h4>
 
               <span>2017 — 2021</span>
 
-              <p class="timeline-text">
+              <p class="timeline-text" data-lang="en">
                 Real-time forecasting for online games; object detection and face recognition on embedded systems.
+              </p>
+              <p class="timeline-text" data-lang="zh">
+                線上遊戲的即時預測系統;嵌入式系統上的物件偵測與人臉辨識。
               </p>
 
             </li>
@@ -407,7 +498,8 @@
 
         <section class="skill">
 
-          <h3 class="h3 skills-title">My skills</h3>
+          <h3 class="h3 skills-title" data-lang="en">My skills</h3>
+          <h3 class="h3 skills-title" data-lang="zh">技能</h3>
 
           <ul class="skills-list content-card">
 
@@ -456,7 +548,6 @@
 
 
 
-
       <!--
         - #BLOG
       -->
@@ -464,12 +555,48 @@
       <article class="blog" data-page="blog">
 
         <header>
-          <h2 class="h2 article-title">Blog</h2>
+          <h2 class="h2 article-title" data-lang="en">Blog</h2>
+          <h2 class="h2 article-title" data-lang="zh">部落格</h2>
         </header>
 
         <section class="blog-posts">
 
           <ul class="blog-posts-list">
+
+            <li class="blog-post-item">
+              <a href="./etf-rotation.html">
+
+                <figure class="blog-banner-box">
+                  <img src="./assets/images/blog-5.jpg" alt="ETF Rotation Research" loading="lazy">
+                </figure>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category" data-lang="en">Quant Research</p>
+                    <p class="blog-category" data-lang="zh">量化研究</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-06-18" data-lang="en">Jun 18, 2026</time>
+                    <time datetime="2026-06-18" data-lang="zh">2026 年 6 月 18 日</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title" data-lang="en">ETF Rotation: what 189 strategies and 3 validation layers reveal</h3>
+                  <h3 class="h3 blog-item-title" data-lang="zh">ETF 輪動:189 個策略與三層驗證告訴我們什麼</h3>
+
+                  <p class="blog-text" data-lang="en">
+                    A little well-timed leverage beats both buy-and-hold core and full leverage — and why three layers
+                    of validation matter more than the highest backtest.
+                  </p>
+                  <p class="blog-text" data-lang="zh">
+                    少量、擇時的槓桿勝過無腦持有核心、也勝過滿倉槓桿——以及為何三層驗證比「歷史最高報酬」更重要。
+                  </p>
+
+                </div>
+
+              </a>
+            </li>
 
             <li class="blog-post-item">
               <a href="https://github.com/jordanchendev/system_guardian" target="_blank" rel="noopener">
@@ -485,14 +612,19 @@
 
                     <span class="dot"></span>
 
-                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="en">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="zh">2026 年 6 月 14 日</time>
                   </div>
 
-                  <h3 class="h3 blog-item-title">System Guardian — autonomous incident management</h3>
+                  <h3 class="h3 blog-item-title" data-lang="en">System Guardian — autonomous incident management</h3>
+                  <h3 class="h3 blog-item-title" data-lang="zh">System Guardian — 自主事件管理</h3>
 
-                  <p class="blog-text">
+                  <p class="blog-text" data-lang="en">
                     An AI-powered platform that autonomously monitors on-call incidents, analyzes them, and suggests
                     resolutions. A write-up on the agent design and triage flow is on the way.
+                  </p>
+                  <p class="blog-text" data-lang="zh">
+                    一個 AI 驅動的平台,自主監控 on-call 事件、分析並建議解法。關於 agent 設計與分流流程的文章即將推出。
                   </p>
 
                 </div>
@@ -514,14 +646,19 @@
 
                     <span class="dot"></span>
 
-                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="en">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="zh">2026 年 6 月 14 日</time>
                   </div>
 
-                  <h3 class="h3 blog-item-title">Triton — GPU-accelerated media-to-text</h3>
+                  <h3 class="h3 blog-item-title" data-lang="en">Triton — GPU-accelerated media-to-text</h3>
+                  <h3 class="h3 blog-item-title" data-lang="zh">Triton — GPU 加速的影音轉文字</h3>
 
-                  <p class="blog-text">
+                  <p class="blog-text" data-lang="en">
                     A worker that turns audio and video into text at scale. Notes on the transcription pipeline and
                     throughput tuning coming soon.
+                  </p>
+                  <p class="blog-text" data-lang="zh">
+                    一個將音訊與影片大量轉成文字的 worker。關於轉錄流程與吞吐量調校的筆記即將推出。
                   </p>
 
                 </div>
@@ -539,18 +676,24 @@
                 <div class="blog-content">
 
                   <div class="blog-meta">
-                    <p class="blog-category">Backend</p>
+                    <p class="blog-category" data-lang="en">Backend</p>
+                    <p class="blog-category" data-lang="zh">後端</p>
 
                     <span class="dot"></span>
 
-                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="en">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="zh">2026 年 6 月 14 日</time>
                   </div>
 
-                  <h3 class="h3 blog-item-title">Poseidon — a trading signal platform</h3>
+                  <h3 class="h3 blog-item-title" data-lang="en">Poseidon — a trading signal platform</h3>
+                  <h3 class="h3 blog-item-title" data-lang="zh">Poseidon — 交易訊號平台</h3>
 
-                  <p class="blog-text">
+                  <p class="blog-text" data-lang="en">
                     Data ingestion, signal generation, and a REST API for trading signals. A deeper dive on the
                     architecture to follow.
+                  </p>
+                  <p class="blog-text" data-lang="zh">
+                    資料擷取、訊號產生,以及交易訊號的 REST API。關於架構的深入解析即將推出。
                   </p>
 
                 </div>
@@ -568,18 +711,24 @@
                 <div class="blog-content">
 
                   <div class="blog-meta">
-                    <p class="blog-category">Frontend</p>
+                    <p class="blog-category" data-lang="en">Frontend</p>
+                    <p class="blog-category" data-lang="zh">前端</p>
 
                     <span class="dot"></span>
 
-                    <time datetime="2026-06-14">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="en">Jun 14, 2026</time>
+                    <time datetime="2026-06-14" data-lang="zh">2026 年 6 月 14 日</time>
                   </div>
 
-                  <h3 class="h3 blog-item-title">Kairos — the Aquarium dashboard SPA</h3>
+                  <h3 class="h3 blog-item-title" data-lang="en">Kairos — the Aquarium dashboard SPA</h3>
+                  <h3 class="h3 blog-item-title" data-lang="zh">Kairos — Aquarium 儀表板 SPA</h3>
 
-                  <p class="blog-text">
+                  <p class="blog-text" data-lang="en">
                     The v6 single-page app shell for the Aquarium trading dashboard — React 19, Vite, Tailwind v4, and
                     TanStack Query. Notes on the rebuild coming soon.
+                  </p>
+                  <p class="blog-text" data-lang="zh">
+                    Aquarium 交易儀表板的 v6 單頁應用骨架——React 19、Vite、Tailwind v4 與 TanStack Query。關於重建的筆記即將推出。
                   </p>
 
                 </div>
@@ -596,8 +745,6 @@
 
 
 
-
-
       <!--
         - #CONTACT
       -->
@@ -605,26 +752,32 @@
       <article class="contact" data-page="contact">
 
         <header>
-          <h2 class="h2 article-title">Contact</h2>
+          <h2 class="h2 article-title" data-lang="en">Contact</h2>
+          <h2 class="h2 article-title" data-lang="zh">聯絡</h2>
         </header>
 
         <section class="contact-form">
 
-          <h3 class="h3 form-title">Contact Form</h3>
+          <h3 class="h3 form-title" data-lang="en">Contact Form</h3>
+          <h3 class="h3 form-title" data-lang="zh">聯絡表單</h3>
 
           <form action="#" class="form" data-form>
 
             <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
+              <input type="text" name="fullname" class="form-input" placeholder="Full name"
+                data-ph-en="Full name" data-ph-zh="姓名" required data-form-input>
 
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+              <input type="email" name="email" class="form-input" placeholder="Email address"
+                data-ph-en="Email address" data-ph-zh="電子郵件" required data-form-input>
             </div>
 
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+            <textarea name="message" class="form-input" placeholder="Your Message"
+              data-ph-en="Your Message" data-ph-zh="你的訊息" required data-form-input></textarea>
 
             <button class="form-btn" type="submit" disabled data-form-btn>
               <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
+              <span data-lang="en">Send Message</span>
+              <span data-lang="zh">送出訊息</span>
             </button>
 
           </form>
@@ -640,7 +793,10 @@
 
 
 
-
+  <!--
+    - language toggle logic
+  -->
+  <script src="./assets/js/lang.js"></script>
 
   <!--
     - custom js link
